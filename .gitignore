@@ -1,0 +1,28 @@
+# data — never commit raw data to git
+data/raw/
+data/processed/
+
+# models — large binary files, use git-lfs or just regenerate
+models/
+
+# generated outputs — regenerate by running the pipeline
+reports/figures/
+
+# python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+dist/
+build/
+.env
+venv/
+.venv/
+
+# jupyter
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# os
+.DS_Store
+Thumbs.db
