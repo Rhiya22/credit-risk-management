@@ -1,4 +1,4 @@
-# Credit Risk Modeling — Predicting Loan Default
+# Credit Risk Management — Predicting Loan Default
 
 I built this project because I wanted to understand how banks actually use machine learning — not the textbook version, but what really goes into a credit decision. As someone coming from a data science background and looking to move into banking/fintech ML roles, I kept seeing "credit risk" mentioned in job descriptions without really understanding what it meant in practice. This was my way of figuring that out.
 
@@ -84,8 +84,8 @@ Honestly, the class imbalance. 93.3% of customers don't default, which means if 
 ## How to run it
 
 ```bash
-git clone https://github.com/Rhiya22/credit-risk-modeling.git
-cd credit-risk-modeling
+git clone https://github.com/Rhiya22/credit-risk-management.git
+cd credit-risk-management
 pip install -r requirements.txt
 ```
 
