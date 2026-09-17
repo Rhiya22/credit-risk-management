@@ -187,7 +187,12 @@ X_in[scale_cols] = scaler.transform(X_in[scale_cols])
 X_arr = X_in.values[0]
  
 # Score
-expl     = explain_single_prediction(model, X_arr, feat_cols, raw_input, THRESHOLD)
+# Use the engineered (unscaled) values for the plain-English explanation, not
+# just the raw sidebar inputs - the explanation templates need engineered
+# columns like DelinquencyScore and TotalDaysPastDue, which don't exist in
+# raw_input, so passing raw_input alone silently rendered them as "0".
+explanation_values = input_fe.iloc[0].to_dict()
+expl     = explain_single_prediction(model, X_arr, feat_cols, explanation_values, THRESHOLD)
 prob     = expl["probability"]
 decision = expl["decision"]
 risk_cat = expl["risk_category"]
@@ -220,8 +225,13 @@ with col_l:
     ax.text(THRESHOLD + 0.01, 0, f"Cutoff {THRESHOLD:.0%}", fontsize=8, color="navy", va="center")
     ax.text(prob / 2, 0, f"{prob:.1%}", ha="center", va="center",
             fontsize=11, fontweight="bold", color="white" if prob > 0.15 else "black")
-    fig.patch.set_alpha(0)
-    ax.set_facecolor("none")
+    # Explicit white background (not transparent) so the chart reads
+    # correctly regardless of whether the viewer's Streamlit theme is
+    # light or dark - a transparent figure inherits the page's dark
+    # background, and default matplotlib text/ticks are black, making
+    # them invisible in dark mode.
+    fig.patch.set_facecolor("white")
+    ax.set_facecolor("white")
     st.pyplot(fig, use_container_width=True)
     plt.close(fig)
  
@@ -243,7 +253,10 @@ with col_r:
                  ha="left" if val >= 0 else "right", fontsize=8)
     ax2.set_xlabel("Contribution to P(default)\nred = increases risk, green = reduces it")
     ax2.set_title("Feature contributions")
-    fig2.patch.set_alpha(0); ax2.set_facecolor("none")
+    # Same fix as the gauge chart above - explicit white background so
+    # labels stay legible in Streamlit's dark theme.
+    fig2.patch.set_facecolor("white")
+    ax2.set_facecolor("white")
     plt.tight_layout()
     st.pyplot(fig2, use_container_width=True)
     plt.close(fig2)
