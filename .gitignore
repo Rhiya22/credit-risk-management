@@ -1,7 +1,7 @@
-# data — never commit raw data to git
-data/raw/
+# data — never commit raw data to git (except the one file the app needs to self-train)
+data/raw/*
+!data/raw/cs-training.csv
 data/processed/
-
 # models — large binary files, use git-lfs or just regenerate
 models/
 
